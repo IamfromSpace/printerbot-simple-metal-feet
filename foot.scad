@@ -22,6 +22,20 @@ module printrbot_base(
     ]);
 }
 
+
+module bracket(length, width, height, height_at_truncation) {
+  true_length = length / (height - height_at_truncation) * height;
+
+  difference() {
+    polyhedron(
+      points=[[0, width / 2, 0],[0,0, height],[0, -width / 2,0],[true_length,0,0]],
+      faces=[[0,1,2],[2,1,3],[3,1,0],[3,0,2]]
+    );
+    translate([length,-width/2,0])
+      cube([true_length - length, width, height_at_truncation]);
+  }
+}
+
 module foot(tolerance) {
   base_thickness = 4;
   foot_wall_thickness = 4;
@@ -33,3 +47,7 @@ module foot(tolerance) {
 }
 
 foot(0.3);
+translate([PRINTRBOT_WALL_THICKNESS + 0.3, 0, -4])
+  bracket(64,30,20,4);
+translate([PRINTRBOT_WALL_THICKNESS + 0.3 + 80 - 16, 0, -4])
+  cylinder(4,8,8);
