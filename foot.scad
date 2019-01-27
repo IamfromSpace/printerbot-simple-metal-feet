@@ -3,6 +3,42 @@
  */
 
 PRINTRBOT_WALL_THICKNESS = 1.5;
+MICRO_SD_CARD_WIDTH = 11;
+MICRO_SD_CARD_LENGTH = 15;
+MICRO_SD_CARD_THICKNESS = 2/3;
+MICRO_SD_CARD_PROTRUSION = 4;
+
+SD_CARD_WIDTH = 24;
+SD_CARD_LENGTH = 32;
+SD_CARD_THICKNESS = 2.2;
+SD_CARD_PROTRUSION = 9;
+
+module card(width, length, thickness, tolerance) {
+  cube([width + tolerance, length + tolerance, thickness + tolerance]);
+}
+
+module card_holder(
+  card_width,
+  card_length,
+  card_thickness,
+  card_protrusion,
+  wall_thickness,
+  tolerance
+) {
+  difference() {
+    cube([
+      wall_thickness * 2 + tolerance * 3 + card_width,
+      wall_thickness * 2 + tolerance * 3 + card_thickness,
+      wall_thickness + card_length - card_protrusion
+    ]);
+    translate([wall_thickness + tolerance,
+      wall_thickness + tolerance * 2 + card_thickness,
+      wall_thickness + tolerance
+    ])
+      rotate([90, 0, 0])
+        card(card_width, card_length, card_thickness, tolerance);
+  }
+}
 
 module printrbot_base(
   tolerance
@@ -51,3 +87,14 @@ translate([PRINTRBOT_WALL_THICKNESS + 0.3, 0, -4])
   bracket(64,30,20,4);
 translate([PRINTRBOT_WALL_THICKNESS + 0.3 + 80 - 16, 0, -4])
   cylinder(4,8,8);
+
+/*
+card_holder(
+  SD_CARD_WIDTH,
+  SD_CARD_LENGTH,
+  SD_CARD_THICKNESS,
+  SD_CARD_PROTRUSION,
+  1,
+  0.3
+);
+*/
