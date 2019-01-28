@@ -111,15 +111,65 @@ module foot_with_wing(tolerance) {
     cylinder(bottom_clearance, 8, 0);
 }
 
-foot_with_wing(0.3);
+module sd_card_holder(wall_thickness, is_positive, tolerance) {
+  card_holder(
+    SD_CARD_WIDTH,
+    SD_CARD_LENGTH,
+    SD_CARD_THICKNESS,
+    SD_CARD_PROTRUSION,
+    wall_thickness,
+    is_positive,
+    tolerance
+  );
+}
 
-/*
-card_holder(
-  SD_CARD_WIDTH,
-  SD_CARD_LENGTH,
-  SD_CARD_THICKNESS,
-  SD_CARD_PROTRUSION,
-  1,
-  0.3
-);
-*/
+module micro_sd_card_holder(wall_thickness, is_positive, tolerance) {
+  card_holder(
+    MICRO_SD_CARD_WIDTH,
+    MICRO_SD_CARD_LENGTH,
+    MICRO_SD_CARD_THICKNESS,
+    MICRO_SD_CARD_PROTRUSION,
+    wall_thickness,
+    is_positive,
+    tolerance
+  );
+}
+
+// TODO: Make this less hideous
+module foot_with_wing_and_sd_cards(tolerance) {
+  difference() {
+    union() {
+      foot_with_wing(tolerance);
+      translate([10, 6.5, -4])
+        sd_card_holder(1, true, tolerance);
+      translate([10, -4.5, -4])
+        mirror([0,1,0])
+          micro_sd_card_holder(1, true, tolerance);
+      translate([23, -4.5, -4])
+        mirror([0,1,0])
+          micro_sd_card_holder(1, true, tolerance);
+      translate([10, -9, -4])
+        mirror([0,1,0])
+          micro_sd_card_holder(1, true, tolerance);
+      translate([23, -9, -4])
+        mirror([0,1,0])
+          micro_sd_card_holder(1, true, tolerance);
+    }
+    translate([10, 6.5, -4])
+      sd_card_holder(1, false, tolerance);
+    translate([10, -4.5, -4])
+      mirror([0,1,0])
+        micro_sd_card_holder(1, false, tolerance);
+    translate([23, -4.5, -4])
+      mirror([0,1,0])
+        micro_sd_card_holder(1, false, tolerance);
+    translate([10, -9, -4])
+      mirror([0,1,0])
+        micro_sd_card_holder(1, false, tolerance);
+    translate([23, -9, -4])
+      mirror([0,1,0])
+        micro_sd_card_holder(1, false, tolerance);
+  }
+}
+
+foot_with_wing_and_sd_cards(0.3);
