@@ -82,11 +82,18 @@ module foot(tolerance) {
   }
 }
 
-foot(0.3);
-translate([PRINTRBOT_WALL_THICKNESS + 0.3, 0, -4])
-  bracket(64,30,20,4);
-translate([PRINTRBOT_WALL_THICKNESS + 0.3 + 80 - 16, 0, -4])
-  cylinder(4,8,8);
+module foot_with_wing(tolerance) {
+  bottom_clearance = 4;
+  wing_length = 64;
+
+  foot(tolerance);
+  translate([PRINTRBOT_WALL_THICKNESS + tolerance, 0, -bottom_clearance])
+    bracket(wing_length, 30, 20, bottom_clearance);
+  translate([PRINTRBOT_WALL_THICKNESS + tolerance + wing_length, 0, -bottom_clearance])
+    cylinder(bottom_clearance, 8, 0);
+}
+
+foot_with_wing(0.3);
 
 /*
 card_holder(
