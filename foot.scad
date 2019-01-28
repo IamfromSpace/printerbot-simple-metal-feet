@@ -10,7 +10,7 @@ MICRO_SD_CARD_PROTRUSION = 4;
 
 SD_CARD_WIDTH = 24;
 SD_CARD_LENGTH = 32;
-SD_CARD_THICKNESS = 2.2;
+SD_CARD_THICKNESS = 2.12;
 SD_CARD_PROTRUSION = 9;
 
 module card(width, length, thickness, tolerance) {
